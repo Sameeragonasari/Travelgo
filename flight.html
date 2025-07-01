@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flight Booking - TravelGo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #f7f7f7;
+      color: #333;
+    }
+
+    header {
+      background-color: #1e1e2f;
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      color: #ff6f91;
+      font-size: 28px;
+    }
+
+    nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .hero {
+      background: url('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf') center/cover no-repeat;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .hero h2 {
+      color: white;
+      font-size: 36px;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .search-form {
+      background: white;
+      margin: -60px auto 30px;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 900px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .search-form h3 {
+      margin-bottom: 15px;
+      color: #ff6f91;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
+    }
+
+    .form-grid input,
+    .form-grid select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .form-grid button {
+      background-color: #ff6f91;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .form-grid button:hover {
+      background-color: #e65b7a;
+    }
+
+    .filters {
+      max-width: 900px;
+      margin: 0 auto 20px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 0 10px;
+    }
+
+    .filters select {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .flights {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 10px;
+    }
+
+    .flight-card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .flight-info h4 {
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .flight-info p {
+      margin: 3px 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .price-book {
+      text-align: right;
+    }
+
+    .price {
+      font-size: 20px;
+      font-weight: bold;
+      color: #ff6f91;
+    }
+
+    .book-btn {
+      background: #ff6f91;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin-top: 8px;
+      cursor: pointer;
+    }
+
+    footer {
+      background: #1e1e2f;
+      color: white;
+      text-align: center;
+      padding: 30px 10px;
+      margin-top: 40px;
+    }
+
+    footer p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>TravelGo</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Flights</a>
+      <a href="#">Support</a>
+      <a href="#">Login</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>✈️ Book Your Perfect Flight with TravelGo</h2>
+  </section>
+
+  <section class="search-form">
+    <h3>Search Flights</h3>
+    <div class="form-grid">
+      <input type="text" placeholder="From" />
+      <input type="text" placeholder="To" />
+      <input type="date" />
+      <select>
+        <option>1 Passenger</option>
+        <option>2 Passengers</option>
+        <option>3 Passengers</option>
+      </select>
+      <select>
+        <option>Economy</option>
+        <option>Business</option>
+        <option>First Class</option>
+      </select>
+      <button><i class="fas fa-search"></i> Search</button>
+    </div>
+  </section>
+
+  <div class="filters">
+    <select><option>Sort by: Price</option></select>
+    <select><option>Airlines</option></select>
+    <select><option>Time of Day</option></select>
+    <select><option>Duration</option></select>
+  </div>
+
+  <section class="flights">
+    <div class="flight-card">
+      <div class="flight-info">
+        <h4>IndiGo Airlines</h4>
+        <p>Departure: 09:30 AM - Arrival: 12:45 PM</p>
+        <p>From: Delhi (DEL) ➡ To: Mumbai (BOM)</p>
+      </div>
+      <div class="price-book">
+        <div class="price">₹3,499</div>
+        <button class="book-btn">Book Now</button>
+      </div>
+    </div>
+
+    <div class="flight-card">
+      <div class="flight-info">
+        <h4>Air India</h4>
+        <p>Departure: 01:00 PM - Arrival: 03:30 PM</p>
+        <p>From: Delhi (DEL) ➡ To: Bengaluru (BLR)</p>
+      </div>
+      <div class="price-book">
+        <div class="price">₹4,250</div>
+        <button class="book-btn">Book Now</button>
+      </div>
+    </div>
+
+    <div class="flight-card">
+      <div class="flight-info">
+        <h4>SpiceJet</h4>
+        <p>Departure: 06:00 PM - Arrival: 08:15 PM</p>
+        <p>From: Mumbai (BOM) ➡ To: Chennai (MAA)</p>
+      </div>
+      <div class="price-book">
+        <div class="price">₹3,899</div>
+        <button class="book-btn">Book Now</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>🔐 Secure Booking Guaranteed</p>
+    <p>📞 24/7 Customer Support: 1800-TRAVELGO</p>
+    <p>🌐 TravelGo © 2025. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

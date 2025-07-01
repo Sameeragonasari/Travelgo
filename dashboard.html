@@ -1,0 +1,173 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - TravelGo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background: #0d0d0d;
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      font-size: 24px;
+    }
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+    }
+    nav a:hover {
+      color: #ff6f91;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .welcome {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .welcome h2 {
+      color: #ff6f91;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .welcome p {
+      color: #555;
+      font-size: 16px;
+    }
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      width: 260px;
+      padding: 25px;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card i {
+      font-size: 48px;
+      color: #ff6f91;
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      font-size: 18px;
+      color: #ff4f73;
+      margin-bottom: 8px;
+    }
+    .card p {
+      font-size: 14px;
+      color: #666;
+    }
+    .btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      background: #ff6f91;
+      color: white;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover {
+      background: #ff4f73;
+      box-shadow: 0 4px 16px rgba(255, 111, 145, 0.4);
+    }
+    footer {
+      background: #0d0d0d;
+      color: #aaa;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+    }
+    @media (max-width: 768px) {
+      .cards {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-plane-departure"></i> TravelGo Dashboard</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/train">Trains</a>
+      <a href="/bus">Buses</a>
+      <a href="/flight">Flights</a>
+      <a href="/hotel">Hotels</a>
+      <a href="/logout">Logout</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="welcome">
+      <h2>Welcome, {{ username }} ✨</h2>
+      <p>Manage your travel bookings with ease. All your upcoming and past bookings are here.</p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <i class="fas fa-train"></i>
+        <h3>Train Booking</h3>
+        <p>Check train availability and book your next ride.</p>
+        <a href="/train" class="btn">Book Train</a>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-bus"></i>
+        <h3>Bus Booking</h3>
+        <p>Reserve seats on buses between cities with comfort.</p>
+        <a href="/bus" class="btn">Book Bus</a>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-plane"></i>
+        <h3>Flight Booking</h3>
+        <p>Book flights to domestic and international destinations.</p>
+        <a href="/flight" class="btn">Book Flight</a>
+      </div>
+
+      <div class="card">
+        <i class="fas fa-hotel"></i>
+        <h3>Hotel Booking</h3>
+        <p>Find and book the best hotels at your destination.</p>
+        <a href="/hotel" class="btn">Book Hotel</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 TravelGo. All rights reserved.</p>
+  </footer>
+</body>
+</html>
