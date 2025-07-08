@@ -1,0 +1,201 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TravelGo - Discover New Destinations</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fafafa;
+      color: #333;
+      scroll-behavior: smooth;
+    }
+    header {
+      background-color: #0d0d0d;
+      padding: 1.5rem 2rem;
+      position: fixed;
+      width: 100%;
+      z-index: 1000;
+      top: 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #fff;
+    }
+    header nav {
+      display: flex;
+      gap: 2rem;
+    }
+    header nav a {
+      color: #ccc;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    header nav a:hover {
+      color: #ff6f91;
+    }
+    .btn {
+      background: #ff6f91;
+      color: white;
+      padding: 0.6rem 1.4rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      background: #ff4f73;
+      box-shadow: 0 4px 20px rgba(255, 111, 145, 0.4);
+    }
+
+    .hero {
+      height: 100vh;
+      background: url("{{ url_for('static', filename='images/index-background.jpg') }}") center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      color: white;
+      padding: 2rem;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+    }
+    .hero-content h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .features {
+      padding: 6rem 2rem;
+      background-color: #fff;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 2.4rem;
+      margin-bottom: 3rem;
+      color: #222;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .feature-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+    .feature-card i {
+      font-size: 2.5rem;
+      color: #ff6f91;
+      margin-bottom: 1rem;
+    }
+    .feature-card h4 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .feature-card p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    footer {
+      background: #0d0d0d;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">TravelGo</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#contact">Contact</a>
+      <a href="/login" class="btn">Login</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Explore. Discover. Travel.</h1>
+      <p>Your adventure begins here. Find the best deals and explore the world.</p>
+      <a href="#features" class="btn">Get Started</a>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <h2 class="section-title">Our Top Features</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <i class="fas fa-search-location"></i>
+        <h4>Smart Search</h4>
+        <p>Easily find the best travel deals and destinations with our intelligent search engine.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-tags"></i>
+        <h4>Exclusive Deals</h4>
+        <p>Access members-only offers on flights, hotels, and experiences globally.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-calendar-check"></i>
+        <h4>Easy Bookings</h4>
+        <p>Fast, reliable booking with instant confirmation and flexible cancellation.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-globe-asia"></i>
+        <h4>Global Coverage</h4>
+        <p>Explore destinations in every corner of the world with broad global partnerships.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-lock"></i>
+        <h4>Secure Payments</h4>
+        <p>Your transactions are protected with 256-bit encryption and trusted payment gateways.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-headset"></i>
+        <h4>24/7 Support</h4>
+        <p>Our support team is available any time, any day to assist you with your travel needs.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 TravelGo. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

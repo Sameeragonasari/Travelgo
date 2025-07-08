@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Train Booking - TravelGo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background-color: #0d0d0d;
+      padding: 1rem 2rem;
+      color: white;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .hero {
+      background: url("{{ url_for('static', filename='images/train.jpg') }}") no-repeat center center/cover;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: #fff;
+      text-align: center;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+    }
+    .hero h1 {
+      z-index: 1;
+      font-size: 3rem;
+    }
+    .search-form {
+      background: #fff;
+      max-width: 800px;
+      margin: -3rem auto 2rem;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 2;
+    }
+    .form-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .form-group input,
+    .form-group select {
+      flex: 1 1 48%;
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .form-group button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #ff6f91;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .results {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .train-card {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      cursor: pointer;
+    }
+    .train-card:hover {
+      background-color: #fff6f8;
+    }
+    .seat-section {
+      display: none;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin: 1rem auto;
+      max-width: 700px;
+    }
+    .seats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 1rem 0;
+    }
+    .seat {
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      background: #eee;
+      cursor: pointer;
+    }
+    .seat.selected {
+      background: #ff6f91;
+      color: white;
+    }
+    .confirm-btn {
+      background: #ff6f91;
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<header>TravelGo - Train Booking</header>
+
+<section class="hero">
+  <h1>Seamless Train Booking at Your Fingertips</h1>
+</section>
+
+<section class="search-form">
+  <form onsubmit="event.preventDefault(); searchTrains();">
+    <div class="form-group">
+      <input type="text" placeholder="From Station" required>
+      <input type="text" placeholder="To Station" required>
+    </div>
+    <div class="form-group">
+      <input type="date" required>
+      <select required>
+        <option value="">Select Class</option>
+        <option>Sleeper</option>
+        <option>3A</option>
+        <option>2A</option>
+        <option>1A</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <button type="submit">Search Trains</button>
+    </div>
+  </form>
+</section>
+
+<section class="results" id="results"></section>
+<section class="seat-section" id="seat-section">
+  <h3>Available Seats:</h3>
+  <div class="seats" id="seats"></div>
+  <button class="confirm-btn" onclick="confirmBooking()">Confirm Booking</button>
+</section>
+
+<script>
+  const trains = [
+    { name: "Rajdhani Express", id: 1 },
+    { name: "Shatabdi Express", id: 2 },
+    { name: "Duronto Express", id: 3 },
+    { name: "Vande Bharat Express", id: 4 },
+    { name: "Garib Rath", id: 5 },
+    { name: "Tejas Express", id: 6 },
+    { name: "Intercity Express", id: 7 },
+  ];
+
+  const seatData = {
+    1: ["A1-1", "A1-2", "A1-3"],
+    2: ["B1-5", "B1-6", "B1-7"],
+    3: ["C1-10", "C1-11"],
+    4: ["VB1-1", "VB1-2", "VB1-3"],
+    5: ["GR1-5", "GR1-6"],
+    6: ["T1-1", "T1-2", "T1-3", "T1-4"],
+    7: ["IC1-1", "IC1-2"]
+  };
+
+  function searchTrains() {
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '<h2>Available Trains</h2>';
+    trains.slice(0, 6).forEach(train => {
+      const card = document.createElement('div');
+      card.className = 'train-card';
+      card.innerText = train.name;
+      card.onclick = () => showSeats(train.id);
+      resultsDiv.appendChild(card);
+    });
+  }
+
+  function showSeats(trainId) {
+    const seats = seatData[trainId] || [];
+    const seatDiv = document.getElementById('seats');
+    seatDiv.innerHTML = '';
+    seats.forEach(seat => {
+      const span = document.createElement('span');
+      span.className = 'seat';
+      span.innerText = seat;
+      span.onclick = () => span.classList.toggle('selected');
+      seatDiv.appendChild(span);
+    });
+    document.getElementById('seat-section').style.display = 'block';
+  }
+
+  function confirmBooking() {
+    const selected = [...document.querySelectorAll('.seat.selected')].map(s => s.innerText);
+    if (selected.length > 0) {
+      alert(`✅ Booking Confirmed for seat(s): ${selected.join(', ')}`);
+    } else {
+      alert("❌ Please select at least one seat.");
+    }
+  }
+</script>
+
+</body>
+</html>

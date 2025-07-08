@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bus Booking - TravelGo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background-color: #0d0d0d;
+      padding: 1rem 2rem;
+      color: white;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .hero {
+      background: url("{{ url_for('static', filename='images/bus.jpg') }}") no-repeat center center/cover;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: #fff;
+      text-align: center;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+    }
+    .hero h1 {
+      z-index: 1;
+      font-size: 3rem;
+    }
+    .search-form {
+      background: #fff;
+      max-width: 800px;
+      margin: -3rem auto 2rem;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 2;
+    }
+    .form-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .form-group input,
+    .form-group select {
+      flex: 1 1 48%;
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .form-group button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #ff6f91;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .results {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .bus-card {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      cursor: pointer;
+      font-weight: bold;
+      color: #ff6f91;
+    }
+    .bus-card:hover {
+      background-color: #fff6f8;
+    }
+    .seat-section {
+      display: none;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin: 1rem auto;
+      max-width: 700px;
+    }
+    .seats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 1rem 0;
+    }
+    .seat {
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      background: #eee;
+      cursor: pointer;
+    }
+    .seat.selected {
+      background: #ff6f91;
+      color: white;
+    }
+    .confirm-btn {
+      background: #ff6f91;
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<header>TravelGo - Bus Booking</header>
+
+<section class="hero">
+  <h1>Book Your Bus Journey Effortlessly</h1>
+</section>
+
+<section class="search-form">
+  <form onsubmit="event.preventDefault(); searchBuses();">
+    <div class="form-group">
+      <input type="text" placeholder="From City" required>
+      <input type="text" placeholder="To City" required>
+    </div>
+    <div class="form-group">
+      <input type="date" required>
+      <select required>
+        <option value="">Select Bus Type</option>
+        <option>AC</option>
+        <option>Non-AC</option>
+        <option>Sleeper</option>
+        <option>Seater</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <button type="submit">Search Buses</button>
+    </div>
+  </form>
+</section>
+
+<section class="results" id="results"></section>
+<section class="seat-section" id="seat-section">
+  <h3>Available Seats:</h3>
+  <div class="seats" id="seats"></div>
+  <button class="confirm-btn" onclick="confirmBooking()">Confirm Booking</button>
+</section>
+
+<script>
+  const buses = [
+    { name: "VRL Travels - AC Sleeper", id: 1 },
+    { name: "Orange Travels - Non-AC", id: 2 },
+    { name: "KSRTC Express", id: 3 },
+    { name: "SRS Travels - Seater", id: 4 },
+    { name: "KPN Travels - Deluxe", id: 5 },
+    { name: "APSRTC Garuda", id: 6 },
+    { name: "Parveen Travels", id: 7 },
+  ];
+
+  const seatData = {
+    1: ["S1", "S2", "S3"],
+    2: ["N1", "N2"],
+    3: ["E1", "E2", "E3"],
+    4: ["ST1", "ST2"],
+    5: ["D1", "D2", "D3", "D4"],
+    6: ["G1", "G2"],
+    7: ["P1", "P2"]
+  };
+
+  function searchBuses() {
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '<h2>Available Buses</h2>';
+    buses.slice(0, 6).forEach(bus => {
+      const card = document.createElement('div');
+      card.className = 'bus-card';
+      card.innerText = bus.name;
+      card.onclick = () => showSeats(bus.id);
+      resultsDiv.appendChild(card);
+    });
+  }
+
+  function showSeats(busId) {
+    const seats = seatData[busId] || [];
+    const seatDiv = document.getElementById('seats');
+    seatDiv.innerHTML = '';
+    seats.forEach(seat => {
+      const span = document.createElement('span');
+      span.className = 'seat';
+      span.innerText = seat;
+      span.onclick = () => span.classList.toggle('selected');
+      seatDiv.appendChild(span);
+    });
+    document.getElementById('seat-section').style.display = 'block';
+  }
+
+  function confirmBooking() {
+    const selected = [...document.querySelectorAll('.seat.selected')].map(s => s.innerText);
+    if (selected.length > 0) {
+      alert(`✅ Booking Confirmed for seat(s): ${selected.join(', ')}`);
+    } else {
+      alert("❌ Please select at least one seat.");
+    }
+  }
+</script>
+
+</body>
+</html>
